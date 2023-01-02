@@ -8,6 +8,12 @@ static const int WIN_HEIGHT = 120;
 
 LRESULT CALLBACK WndProc(
     HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK MyDlgProc(HWND, UINT, WPARAM, LPARAM);
+
+HINSTANCE hInst;
+
+std::wstring strEdit;
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
@@ -16,6 +22,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     WNDCLASS wc;
     HWND hwnd;
     MSG msg;
+
+    hInst = hInstance;
 
     // ウィンドウクラスの属性を設定
     wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -73,7 +81,7 @@ LRESULT CALLBACK WndProc(
             10, 10, 200, 25,
             hwnd, // 親ウィンドウ
             NULL,
-            ((LPCREATESTRUCT)(lParam))->hInstance,
+            hInst,
             NULL
         );
 
@@ -88,7 +96,7 @@ LRESULT CALLBACK WndProc(
             30, 40, 60, 25,
             hwnd, // 親ウィンドウ
             NULL,
-            ((LPCREATESTRUCT)(lParam))->hInstance,
+            hInst,
             NULL
         );
 
@@ -100,7 +108,7 @@ LRESULT CALLBACK WndProc(
             110, 40, 80, 25,
             hwnd, // 親ウィンドウ
             NULL,
-            ((LPCREATESTRUCT)(lParam))->hInstance,
+            hInst,
             NULL
         );
         return 0;
@@ -114,8 +122,12 @@ LRESULT CALLBACK WndProc(
             // 3) マクロ
             // Static_SetText(hLabel, L"");
         }
-        else if ((HWND)lParam == hResetBtn) {
+        else if ((HWND)lParam == hEditBtn) {
             // 編集ダイアログを開く
+            INT_PTR result = DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hwnd, (DLGPROC)MyDlgProc);
+            if (result == IDOK) {
+                SetWindowText(hLabel, strEdit.c_str());
+            }
         }
         return 0;
     case WM_DESTROY:
@@ -123,4 +135,23 @@ LRESULT CALLBACK WndProc(
         return 0;
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+// ダイアログプロシージャ
+INT_PTR CALLBACK MyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
+    wchar_t wcEdit[128] = { 0 };
+    switch (msg) {
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK: 
+            GetDlgItemText(hDlg, IDC_EDIT1, wcEdit, wcslen(wcEdit) - 1);
+            EndDialog(hDlg, IDOK);
+            strEdit = wcEdit;
+            return TRUE;
+        case IDCANCEL:
+            EndDialog(hDlg, IDCANCEL);
+            return TRUE;
+        }
+        return FALSE;
+    }
+    return FALSE;
 }
