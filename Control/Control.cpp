@@ -3,7 +3,7 @@
 #include "resource.h"
 #include <string>
 
-static const int WIN_WIDTH = 235;
+static const int WIN_WIDTH = 335;
 static const int WIN_HEIGHT = 120;
 
 LRESULT CALLBACK WndProc(
@@ -68,6 +68,7 @@ LRESULT CALLBACK WndProc(
     static HWND hLabel;
     static HWND hEditBtn;
     static HWND hResetBtn;
+    static HWND hCloseBtn;
 
     switch (uMsg) {
     case WM_CREATE:
@@ -78,7 +79,7 @@ LRESULT CALLBACK WndProc(
             L"STATIC", // ウィンドウクラス名
             L"こんにちは", // テキスト
             WS_CHILD | WS_VISIBLE | SS_CENTER,
-            10, 10, 200, 25,
+            10, 10, 300, 25,
             hwnd, // 親ウィンドウ
             NULL,
             hInst,
@@ -111,6 +112,18 @@ LRESULT CALLBACK WndProc(
             hInst,
             NULL
         );
+
+        // ボタンコントロール（終了ボタン）
+        hCloseBtn = CreateWindow(
+            L"BUTTON", // ウィンドウクラス名
+            L"終了", // テキスト
+            WS_CHILD | WS_VISIBLE | WS_TABSTOP,
+            200, 40, 80, 25,
+            hwnd, // 親ウィンドウ
+            NULL,
+            hInst,
+            NULL
+        );
         return 0;
     case WM_COMMAND:
         if ((HWND)lParam == hResetBtn) {
@@ -128,6 +141,10 @@ LRESULT CALLBACK WndProc(
             if (result == IDOK) {
                 SetWindowText(hLabel, strEdit.c_str());
             }
+        }
+        else if ((HWND)lParam == hCloseBtn) {
+            // 終了
+            PostQuitMessage(0);
         }
         return 0;
     case WM_DESTROY:
@@ -149,6 +166,9 @@ INT_PTR CALLBACK MyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
             return TRUE;
         case IDCANCEL:
             EndDialog(hDlg, IDCANCEL);
+            return TRUE;
+        case IDC_BUTTON_CLEAR:
+            SetDlgItemText(hDlg, IDC_EDIT1, L"");
             return TRUE;
         }
         return FALSE;
