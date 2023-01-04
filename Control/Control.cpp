@@ -116,10 +116,10 @@ LRESULT CALLBACK WndProc(
     case WM_COMMAND:
         if ((HWND)lParam == hClearBtn) {
             // コントロールに対する操作は3通り
-            // 1) 関数
-            SetWindowText(hLabel, L"");
-            // 2) メッセージ
-            // SendMessage(hLabel, WM_SETTEXT, 0, (LPARAM)L"");
+            // 1) メッセージ
+            SendMessage(hLabel, WM_SETTEXT, 0, (LPARAM)L"");
+            // 2) 関数
+            // SetWindowText(hLabel, L"");
             // 3) マクロ
             // Static_SetText(hLabel, L"");
         }
