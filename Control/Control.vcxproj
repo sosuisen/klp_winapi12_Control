@@ -130,14 +130,7 @@
     <ClCompile Include="Control.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Control.ico" />
-    <Image Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Control.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
