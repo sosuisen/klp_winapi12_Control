@@ -67,11 +67,24 @@ LRESULT CALLBACK WndProc(
 {
     static HWND hLabel;
     static HWND hEditBtn;
-    static HWND hResetBtn;
+    static HWND hClearBtn;
     static HWND hCloseBtn;
 
     switch (uMsg) {
     case WM_CREATE:
+        // ボタンコントロール（編集ボタン）
+        // https://learn.microsoft.com/ja-jp/windows/win32/controls/create-a-button
+        hEditBtn = CreateWindow(
+            L"BUTTON", // ウィンドウクラス名
+            L"編集", // テキスト
+            WS_CHILD | WS_VISIBLE,
+            30, 40, 60, 25,
+            hwnd, // 親ウィンドウ
+            NULL,
+            hInst,
+            NULL
+        );
+
         // テキスト静的コントロール
         // （文字を表示するコントロール）
         // https://learn.microsoft.com/ja-jp/windows/win32/controls/about-static-controls#text-static-control
@@ -86,26 +99,11 @@ LRESULT CALLBACK WndProc(
             NULL
         );
 
-        // ボタンコントロール（編集ボタン）
-        // https://learn.microsoft.com/ja-jp/windows/win32/controls/create-a-button
-        hEditBtn = CreateWindow(
+        // ボタンコントロール（クリアボタン）
+        hClearBtn = CreateWindow(
             L"BUTTON", // ウィンドウクラス名
-            L"編集", // テキスト
-            // ボタンスタイル
-            // https://learn.microsoft.com/ja-jp/windows/win32/controls/button-styles
-            WS_CHILD | WS_VISIBLE | WS_TABSTOP | BS_DEFPUSHBUTTON,
-            30, 40, 60, 25,
-            hwnd, // 親ウィンドウ
-            NULL,
-            hInst,
-            NULL
-        );
-
-        // ボタンコントロール（リセットボタン）
-        hResetBtn = CreateWindow(
-            L"BUTTON", // ウィンドウクラス名
-            L"リセット", // テキスト
-            WS_CHILD | WS_VISIBLE | WS_TABSTOP,
+            L"クリア", // テキスト
+            WS_CHILD | WS_VISIBLE,
             110, 40, 80, 25,
             hwnd, // 親ウィンドウ
             NULL,
@@ -126,7 +124,7 @@ LRESULT CALLBACK WndProc(
         );
         return 0;
     case WM_COMMAND:
-        if ((HWND)lParam == hResetBtn) {
+        if ((HWND)lParam == hClearBtn) {
             // コントロールに対する操作は3通り
             // 1) 関数
             SetWindowText(hLabel, L"");
