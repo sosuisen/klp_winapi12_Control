@@ -43,11 +43,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // ウィンドウを作成
     hwnd = CreateWindow(
         szAppName, // ウィンドウクラス名
-        L"コントロールの練習",
+        L"Control", // タイトル文字
         WS_OVERLAPPEDWINDOW,
         50, 50, WIN_WIDTH, WIN_HEIGHT,
-        NULL, NULL,
-        hInstance, NULL);
+        NULL,
+        NULL,
+        hInstance,
+        NULL);
 
     if (!hwnd) return 0;
 
@@ -67,10 +69,23 @@ LRESULT CALLBACK WndProc(
 {
     static HWND hLabel;
     static HWND hEditBtn;
-    static HWND hResetBtn;
+    static HWND hClearBtn;
 
     switch (uMsg) {
     case WM_CREATE:
+        // https://learn.microsoft.com/ja-jp/windows/win32/controls/create-a-button
+        // ボタンコントロール（編集ボタン）
+        hEditBtn = CreateWindow(
+            L"BUTTON", // ウィンドウクラス名
+            L"編集", // ボタン文字
+            WS_CHILD | WS_VISIBLE,
+            30, 40, 60, 25,
+            hwnd, // 親ウィンドウ
+            NULL,
+            hInst,
+            NULL
+        );
+
         // テキスト静的コントロール
         // （文字を表示するコントロール）
         // https://learn.microsoft.com/ja-jp/windows/win32/controls/about-static-controls#text-static-control
@@ -85,35 +100,21 @@ LRESULT CALLBACK WndProc(
             NULL
         );
 
-        // ボタンコントロール（編集ボタン）
-        // https://learn.microsoft.com/ja-jp/windows/win32/controls/create-a-button
-        hEditBtn = CreateWindow(
+        // ボタンコントロール（クリアボタン）
+        hClearBtn = CreateWindow(
             L"BUTTON", // ウィンドウクラス名
-            L"編集", // テキスト
-            // ボタンスタイル
-            // https://learn.microsoft.com/ja-jp/windows/win32/controls/button-styles
-            WS_CHILD | WS_VISIBLE | WS_TABSTOP | BS_DEFPUSHBUTTON,
-            30, 40, 60, 25,
+            L"Label", // テキスト
+            WS_CHILD | WS_VISIBLE,
+            0, 0, 40, 30,
             hwnd, // 親ウィンドウ
             NULL,
             hInst,
             NULL
         );
 
-        // ボタンコントロール（リセットボタン）
-        hResetBtn = CreateWindow(
-            L"BUTTON", // ウィンドウクラス名
-            L"リセット", // テキスト
-            WS_CHILD | WS_VISIBLE | WS_TABSTOP,
-            110, 40, 80, 25,
-            hwnd, // 親ウィンドウ
-            NULL,
-            hInst,
-            NULL
-        );
         return 0;
     case WM_COMMAND:
-        if ((HWND)lParam == hResetBtn) {
+        if ((HWND)lParam == hClearBtn) {
             // コントロールに対する操作は3通り
             // 1) 関数
             SetWindowText(hLabel, L"");
@@ -124,10 +125,12 @@ LRESULT CALLBACK WndProc(
         }
         else if ((HWND)lParam == hEditBtn) {
             // 編集ダイアログを開く
+            /*
             INT_PTR result = DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hwnd, (DLGPROC)MyDlgProc);
             if (result == IDOK) {
                 SetWindowText(hLabel, strEdit.c_str());
             }
+            */
         }
         return 0;
     case WM_DESTROY:
@@ -137,6 +140,7 @@ LRESULT CALLBACK WndProc(
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 // ダイアログプロシージャ
+/*
 INT_PTR CALLBACK MyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
     wchar_t wcEdit[128] = { 0 };
     switch (msg) {
@@ -155,3 +159,4 @@ INT_PTR CALLBACK MyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
     }
     return FALSE;
 }
+*/
