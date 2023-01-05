@@ -130,10 +130,6 @@
     <ClCompile Include="Control.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Control.ico" />
-    <Image Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
