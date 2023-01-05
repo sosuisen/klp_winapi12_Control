@@ -4,7 +4,7 @@
 //
 #define IDD_DIALOG1                     101
 #define IDC_EDIT1                       1001
-#define IDC_BUTTON_CLEAR                1002
+#define IDC_BUTTON_DEFAULT              1002
 
 // Next default values for new objects
 // 

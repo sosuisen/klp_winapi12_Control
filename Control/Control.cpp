@@ -116,7 +116,7 @@ LRESULT CALLBACK WndProc(
             L"BUTTON", // ウィンドウクラス名
             L"終了", // テキスト
             WS_CHILD | WS_VISIBLE | WS_TABSTOP,
-            200, 40, 80, 25,
+            210, 40, 80, 25,
             hwnd, // 親ウィンドウ
             NULL,
             hInst,
@@ -165,8 +165,8 @@ INT_PTR CALLBACK MyDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
         case IDCANCEL:
             EndDialog(hDlg, IDCANCEL);
             return TRUE;
-        case IDC_BUTTON_CLEAR:
-            SetDlgItemText(hDlg, IDC_EDIT1, L"");
+        case IDC_BUTTON_DEFAULT:
+            SetDlgItemText(hDlg, IDC_EDIT1, L"こんにちは");
             return TRUE;
         }
         return FALSE;
