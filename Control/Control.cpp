@@ -126,11 +126,11 @@ LRESULT CALLBACK WndProc(
     case WM_COMMAND:
         if ((HWND)lParam == hClearBtn) {
             // コントロールに対する操作は3通り
-            // 1) 関数
-            SetWindowText(hLabel, L"");
-            // 2) メッセージ
-            // SendMessage(hLabel, WM_SETTEXT, 0, (LPARAM)L"");
-            // 3) マクロ
+            // 1) メッセージ
+            SendMessage(hLabel, WM_SETTEXT, 0, (LPARAM)L"");
+            // 2) ウィンドウ共通のメソッド風味
+            // SetWindowText(hLabel, L"");
+            // 3) 手続き型言語風味
             // Static_SetText(hLabel, L"");
         }
         else if ((HWND)lParam == hEditBtn) {
